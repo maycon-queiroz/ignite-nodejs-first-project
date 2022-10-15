@@ -21,11 +21,13 @@ app.post('/account', (request, response) => {
   return response.status(201).send();
 });
 
-app.get('/statement/:cpf', (request, response) => {
-  const { cpf } = request.params;
-  const currentCustomer = customers.filter((customer) => customer.cpf === cpf);
+/* eslint consistent-return: "off" */
+app.get('/statement', (request, response) => {
+  const { cpf } = request.headers;
 
-  if (currentCustomer.length === 0) {
+  const currentCustomer = customers.find((customer) => customer.cpf === cpf);
+
+  if (!currentCustomer) {
     return response.status(400).json({ message: 'Error! customer not exist' });
   }
 
