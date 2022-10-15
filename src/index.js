@@ -101,6 +101,24 @@ app.get('/statement/date', verifyIfExistsAccountCPF, (request, response) => {
   response.status(200).json(statement);
 });
 
+app.put('/account', verifyIfExistsAccountCPF, (request, response) => {
+  const { currentCustomer } = request;
+  const { name } = request.body;
+
+  currentCustomer.name = name;
+
+  response.status(200).json();
+});
+
+app.get('/account', verifyIfExistsAccountCPF, (request, response) => {
+  const { currentCustomer } = request;
+
+  const customer = {
+    name: currentCustomer.name,
+  };
+  response.status(200).json(customer);
+});
+
 app.get('/', (request, response) => response.status(201).json(customers));
 
 app.listen(3333);
