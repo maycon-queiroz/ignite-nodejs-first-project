@@ -123,6 +123,14 @@ app.get('/account', verifyIfExistsAccountCPF, (request, response) => {
   response.status(200).json(customer);
 });
 
+app.delete('/account', verifyIfExistsAccountCPF, (request, response) => {
+  const { currentCustomer } = request;
+
+  customers.splice(currentCustomer, 1);
+
+  response.status(200).json({ message: 'account removed', customers });
+});
+
 app.get('/', (request, response) => response.status(201).json(customers));
 
 app.listen(3333);
