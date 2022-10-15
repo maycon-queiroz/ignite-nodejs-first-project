@@ -6,6 +6,20 @@ app.use(express.json());
 
 const customers = [];
 
+function verifyIfExistsAccountCPF(request, response, next) {
+  const { cpf } = request.headers;
+
+  const currentCustomer = customers.find((customer) => customer.cpf === cpf);
+
+  if (!currentCustomer) {
+    return response.status(400).json({ message: 'Error! customer not exist' });
+  }
+
+  request.currentCustomer = currentCustomer;
+
+  return next();
+}
+
 app.post('/account', (request, response) => {
   const { cpf, name } = request.body;
   const customerAlreadyExist = customers.some((customer) => customer.cpf === cpf);
@@ -21,15 +35,8 @@ app.post('/account', (request, response) => {
   return response.status(201).send();
 });
 
-/* eslint consistent-return: "off" */
-app.get('/statement', (request, response) => {
-  const { cpf } = request.headers;
-
-  const currentCustomer = customers.find((customer) => customer.cpf === cpf);
-
-  if (!currentCustomer) {
-    return response.status(400).json({ message: 'Error! customer not exist' });
-  }
+app.get('/statement', verifyIfExistsAccountCPF, (request, response) => {
+  const { currentCustomer } = request;
 
   response.status(200).json(currentCustomer.statement);
 });
