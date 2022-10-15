@@ -21,6 +21,13 @@ app.post('/account', (request, response) => {
   return response.status(201).send();
 });
 
+app.get('/statement/:cpf', (request, response) => {
+  const { cpf } = request.params;
+  const currentCustomer = customers.find((customer) => customer.cpf === cpf);
+
+  response.status(200).json(currentCustomer.statement);
+});
+
 app.get('/', (request, response) => response.status(201).json(customers));
 
 app.listen(3333);
