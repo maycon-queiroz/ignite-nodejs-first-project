@@ -23,7 +23,11 @@ app.post('/account', (request, response) => {
 
 app.get('/statement/:cpf', (request, response) => {
   const { cpf } = request.params;
-  const currentCustomer = customers.find((customer) => customer.cpf === cpf);
+  const currentCustomer = customers.filter((customer) => customer.cpf === cpf);
+
+  if (currentCustomer.length === 0) {
+    return response.status(400).json({ message: 'Error! customer not exist' });
+  }
 
   response.status(200).json(currentCustomer.statement);
 });
