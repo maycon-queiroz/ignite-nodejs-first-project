@@ -131,6 +131,13 @@ app.delete('/account', verifyIfExistsAccountCPF, (request, response) => {
   response.status(200).json({ message: 'account removed', customers });
 });
 
+app.get('/balance', verifyIfExistsAccountCPF, (request, response) => {
+  const { currentCustomer } = request;
+
+  const balance = getBalance(currentCustomer.statement);
+  response.status(201).json(balance);
+});
+
 app.get('/', (request, response) => response.status(201).json(customers));
 
 app.listen(3333);

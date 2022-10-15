@@ -9,6 +9,7 @@
 - [x] Deve ser possível atualizar dados da conta do cliente
 - [x] Deve ser possível obter dados da conta do cliente
 - [x] Deve ser possível deletar uma conta
+- [x] Deve ser possível obter o extrato do usuário
 
 ### Regras de negócio
 - [X] Não deve ser possível cadastrar uma conta com CPF já existente
